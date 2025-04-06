@@ -5,7 +5,7 @@ from src.fake_db import db
 
 router = APIRouter()
 
-@router.get("", status_code=status.HTTP_200_OK, response_model=UserInfo, responses={404: {"detail": "User not found"}})
+@router.get("/api/v1/user/", status_code=status.HTTP_200_OK, response_model=UserInfo, responses={404: {"detail": "User not found"}})
 async def get_user(email: str):
     '''Получение пользователя по email'''
     user = db.get_user_by_email(email)
@@ -17,7 +17,7 @@ async def get_user(email: str):
         email=user['email']
     )
     
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=int,
+@router.post("/api/v1/user/", status_code=status.HTTP_201_CREATED, response_model=int,
              responses={409: {"detail": "User with this email already exists"}})
 async def create_user(data: CreateUser):
     '''Создание пользователя'''
@@ -26,7 +26,7 @@ async def create_user(data: CreateUser):
     db.create_user(data.name, data.email)
     return db.get_user_by_email(data.email)['id']
 
-@router.delete("", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/api/v1/user/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(email: str):
     '''Удаление пользователя'''
     db.delete_user_by_email(email)
