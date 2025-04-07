@@ -5,7 +5,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-WORKDIR /app/src
-COPY src .
+COPY src/ ./src
 
 ENTRYPOINT [ "python", "main.py" ]
